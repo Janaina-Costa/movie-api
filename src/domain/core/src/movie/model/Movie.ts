@@ -1,4 +1,4 @@
-import DateVO from "../../shared/valueObject/Date";
+import DateVO from "../../shared/valueObject/DateVO";
 import Entity, { EntityProps } from "../../shared/valueObject/Entity";
 import Image from "../../shared/valueObject/Image";
 import MovieName from "../../shared/valueObject/MovieName";
@@ -39,7 +39,7 @@ export default class Movie extends Entity<Movie, MovieProps> {
     this.linkUrl = new Url(props.linkUrl) ?? undefined;
     this.userOpinion = new SimpleText(props.userOpinion!);
     this.review = props.review ?? undefined;
-    this.watchedDate = DateVO.parse(props.watchedDate!, "dd-MM-yyyy");
+    this.watchedDate = DateVO.parse(props.watchedDate!);
     this.isFirstTimeWatching = props.isFirstTimeWatching ?? true;
     this.quantityViews = new Quantity(props.quantityViews!) ?? 0;
   }
