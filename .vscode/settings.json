@@ -1,0 +1,22 @@
+{
+    "code-runner.executorMap": {
+        "javascript": "node",
+        "typescript": "npx ts-node"
+    },
+    "symbols.folders.associations": {
+        "User": "folder-blue",
+        "infra": "folder-pipes",
+        "infrastructure": "folder-pipes",
+        "external": "folder-target",
+        "ui": "folder-assets",
+        "model":"folder-yellow",
+        "domain":"folder-yellow",
+        "service":"folder-red",
+        "adapters":"folder-supabase",
+        "presentation":"folder-green",
+        "controllers":"folder-green",
+
+    },
+    "symbols.files.associations": {},
+    "cSpell.words": ["Usuario"]
+}
