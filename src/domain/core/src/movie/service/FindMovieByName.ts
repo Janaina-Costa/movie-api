@@ -1,6 +1,6 @@
 import UseCase from "@/domain/core/commons/UseCase";
-import { MovieRepository } from "../provider/MovieReposytory";
 import Movie from "../model/Movie";
+import { MovieRepository } from "../provider/MovieRepository";
 
 export default class FindMovieByName implements UseCase<string, Movie | null> {
   constructor(private movieRepository: MovieRepository) {}

@@ -1,8 +1,0 @@
-export enum MovieReviewEnum{
-  PESSIMO='PESSIMO',
-  RUIM='RUIM',
-  REGULAR='REGULAR',
-  BOM='BOM',
-  MUITO_BOM='MUITO BOM',
-  EXCELENTE='EXCELENTE'
-}
