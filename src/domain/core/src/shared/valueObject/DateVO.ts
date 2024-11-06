@@ -1,10 +1,10 @@
-import { parse, isValid } from "date-fns";
+import { parse, isValid, formatDate } from "date-fns";
 
 export default class DateVO {
   private date: Date;
 
-  constructor(dateString: string, format: string = "dd-MM-yyyy") {
-    const parsedDate = parse(dateString, format, new Date());
+  constructor(value: string, format: string = "dd-MM-yyyy") {
+    const parsedDate = parse(value, format, new Date());
 
     if (!isValid(parsedDate)) {
       throw new Error("Invalid date");
@@ -12,16 +12,20 @@ export default class DateVO {
     this.date = parsedDate;
   }
 
-  get value(): Date {
-    return this.date;
+  get value(): string {
+    return this.toStringDate();
   }
 
-  static isValid(dateString: string, format: string = "dd-MM-yyyy"): boolean {
-    const date = parse(dateString, format, new Date());
+  toStringDate(format: string = "dd-MM-yyyy"): string {
+    return formatDate(this.date, format);
+  }
+
+  static isValid(value: string, format: string = "dd-MM-yyyy"): boolean {
+    const date = parse(value, format, new Date());
     return isValid(date);
   }
 
-  static parse(dateString: string, format: string = "dd-MM-yyyy"): DateVO {
-    return new DateVO(dateString, format);
+  static parse(value: string, format: string = "dd-MM-yyyy"): DateVO {
+    return new DateVO(value, format);
   }
 }

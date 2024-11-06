@@ -1,14 +1,14 @@
 export default class Url {
   private url: URL;
 
-  constructor(readonly linkUrl?: string) {
-    this.linkUrl = linkUrl ?? "";
+  constructor(readonly value: string) {
+    this.value = value ?? "";
 
-    if (!Url.isValid(this.linkUrl)) {
+    if (!Url.isValid(this.value)) {
       throw new Error("Invalid URL");
     }
 
-    this.url = new URL(this.linkUrl);
+    this.url = new URL(this.value);
   }
 
   get protocol(): string {

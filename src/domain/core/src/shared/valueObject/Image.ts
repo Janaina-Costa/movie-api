@@ -1,8 +1,8 @@
 export default class Image {
   private readonly allowedExtensions = ["jpg", "jpeg", "png", "svg"];
 
-  constructor(private readonly imageName?: string) {
-    this.imageName = imageName ?? ''
+  constructor(private imageName: string) {
+    this.imageName = imageName ?? "";
     this.validate();
   }
 
@@ -15,5 +15,9 @@ export default class Image {
 
   private getExtension(value?: string) {
     return value?.split(".").pop()?.toLocaleLowerCase() ?? "";
+  }
+
+  get value(): string {
+    return this.imageName;
   }
 }
