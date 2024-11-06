@@ -1,21 +1,22 @@
 import DateVO from "../../shared/valueObject/DateVO";
 import Entity, { EntityProps } from "../../shared/valueObject/Entity";
 import Image from "../../shared/valueObject/Image";
+import MovieGenre from "../../shared/valueObject/MovieGenre";
 import MovieName from "../../shared/valueObject/MovieName";
 import Quantity from "../../shared/valueObject/Quantity";
 import SimpleText from "../../shared/valueObject/SimpleText";
 import Url from "../../shared/valueObject/Url";
-import { MovieGenreEnum, MovieReviewEnum } from "../types/enums/movie";
-
+import UserOpinion from "../../shared/valueObject/UserOpinion";
+import UserReview from "../../shared/valueObject/UserReview";
 
 export interface MovieProps extends EntityProps {
   name?: string;
   image?: string;
-  genre?: MovieGenreEnum;
+  genre?: string;
   linkUrl?: string;
   watchedDate?: string;
   userOpinion?: string;
-  review?: MovieReviewEnum;
+  review?: string;
   isFirstTimeWatching?: boolean;
   quantityViews?: number;
 }
@@ -23,24 +24,24 @@ export interface MovieProps extends EntityProps {
 export default class Movie extends Entity<Movie, MovieProps> {
   readonly name: MovieName;
   readonly image: Image;
-  readonly genre: MovieGenreEnum;
+  readonly genre: MovieGenre;
   readonly linkUrl: Url;
   readonly watchedDate: DateVO;
-  readonly userOpinion: SimpleText;
-  readonly review: MovieReviewEnum;
+  readonly userOpinion: UserOpinion;
+  readonly review: UserReview;
   readonly isFirstTimeWatching: boolean;
   readonly quantityViews: Quantity;
 
   constructor(props: MovieProps) {
     super(props);
     this.name = new MovieName(props.name!);
-    this.image = new Image(props.image) ?? undefined;
-    this.genre = props.genre!;
-    this.linkUrl = new Url(props.linkUrl) ?? undefined;
+    this.image = new Image(props.image!);
+    this.genre = new MovieGenre(props.genre!);
+    this.linkUrl = new Url(props.linkUrl!);
     this.userOpinion = new SimpleText(props.userOpinion!);
-    this.review = props.review!;
+    this.review = new UserReview(props.review!);
     this.watchedDate = DateVO.parse(props.watchedDate!);
-    this.isFirstTimeWatching = props.isFirstTimeWatching ?? true;
+    this.isFirstTimeWatching = props.isFirstTimeWatching! ?? true;
     this.quantityViews = new Quantity(props.quantityViews!) ?? 0;
   }
 }

@@ -1,6 +1,5 @@
-import { FindMovies, MovieRepository, SaveMovie } from "@/domain/core/src/movie";
+import { FindMovies, MovieRepository, SaveMovie } from "@/domain/core/src";
 import { MovieDTO } from "../DTO/MovieDTO";
-
 
 export default class MovieFacade {
   constructor(private movieRepository: MovieRepository) {}
@@ -13,18 +12,18 @@ export default class MovieFacade {
       image: dto.image!,
       genre: dto.genre!,
       linkUrl: dto.linkUrl!,
-      watchedDate:dto.watchedDate!,
-      userOpinion:dto.userOpinion!,
+      watchedDate: dto.watchedDate!,
+      userOpinion: dto.userOpinion!,
       review: dto.review!,
       isFirstTimeWatching: dto.isFirstTimeWatching!,
       quantityViews: dto.quantityViews!,
     });
   }
 
-  async index(): Promise<MovieDTO[]>{
-    const useCase = new FindMovies(this.movieRepository)
-    const movie = await useCase.execute()
+  async index(): Promise<MovieDTO[]> {
+    const useCase = new FindMovies(this.movieRepository);
+    const movie = await useCase.execute();
 
-    return movie.map(m=>m.props)
+    return movie.map((m) => m.props);
   }
 }
