@@ -12,3 +12,17 @@ datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
 }
+
+model Movie{
+  id String @id @db.UniqueIdentifier
+  name String @unique @db.VarChar(120)
+  image String
+  genre String
+  linkUrl String
+  watchedDate String
+  userOpinion String @db.VarChar(360)
+  review String
+  isFirstTimeWatching Boolean @default(true)
+  quantityViews Int
+}
+
