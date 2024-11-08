@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 export default class MovieUpdateController {
   constructor() {}
 
-  update = async (req: Request, res: Response) => {
+  render = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       const {

@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 export default class MovieCreateController {
   constructor() {}
 
-  create = async (req: Request, res: Response) => {
+  render = async (req: Request, res: Response) => {
     try {
       const {
         name,
@@ -19,7 +19,6 @@ export default class MovieCreateController {
       } = req.body;
 
       const movieExists = await CoreFaced.movie.showByName(name);
-      console.log(movieExists);
 
       if (movieExists) {
         return res.status(400).json({ message: "Movie already exists" });

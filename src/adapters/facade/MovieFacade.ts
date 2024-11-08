@@ -4,6 +4,7 @@ import {
   SaveMovie,
   FindMovieByName,
   FindMovieById,
+  DeleteMovie,
 } from "@/domain/core/src";
 import { MovieDTO } from "../DTO/MovieDTO";
 import UpdateMovie from "@/domain/core/src/movie/service/UpdateMovie";
@@ -62,5 +63,11 @@ export default class MovieFacade {
       quantityViews: dto.quantityViews!,
     });
     return movie ? movie.props : null;
+  }
+
+  async delete(id: string): Promise<void> {
+    const useCase = new DeleteMovie(this.movieRepository);
+
+    await useCase.execute(id);
   }
 }
