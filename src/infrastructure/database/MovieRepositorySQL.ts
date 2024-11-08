@@ -22,10 +22,8 @@ export default class MovieRepositorySQL implements MovieRepository {
       isFirstTimeWatching: movie.isFirstTimeWatching,
       quantityViews: movie.quantityViews.value,
     };
-    await this.prisma.movie.upsert({
-      where: { id: movie.id.value ?? -1 },
-      create: movieDB as any,
-      update: movieDB,
+    await this.prisma.movie.create({
+      data: movieDB,
     });
   }
 
@@ -43,6 +41,30 @@ export default class MovieRepositorySQL implements MovieRepository {
     const movie = await this.prisma.movie.findUnique({ where: { name } });
 
     return movie ? new Movie({ ...movie }) : null;
+  }
+
+  async update(id: string, movie: Movie): Promise<Movie | null> {
+    try {
+      const updateMovie = await this.prisma.movie.update({
+        where: { id },
+        data: {
+          name: movie.name.value,
+          image: movie.image.value,
+          genre: movie.genre.genre,
+          linkUrl: movie.linkUrl.value,
+          watchedDate: movie.watchedDate.value,
+          userOpinion: movie.userOpinion.value,
+          review: movie.review.review,
+          isFirstTimeWatching: movie.isFirstTimeWatching,
+          quantityViews: movie.quantityViews.value,
+        },
+      });
+
+      return updateMovie ? new Movie({ ...updateMovie }) : null;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   }
 
   async delete(id: string): Promise<void | null> {
