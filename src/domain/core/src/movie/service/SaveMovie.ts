@@ -1,6 +1,6 @@
-import UseCase from "@/domain/core/commons/UseCase";
 import { MovieRepository } from "../provider/MovieRepository";
 import Movie from "../model/Movie";
+import UseCase from "../../commons/UseCase";
 
 type InputMovie = {
   name: string;
