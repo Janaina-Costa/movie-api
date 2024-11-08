@@ -1,6 +1,6 @@
-import UseCase from "@/domain/core/commons/UseCase";
 import { MovieRepository } from "../provider/MovieRepository";
 import Id from "../../shared/valueObject/Id";
+import UseCase from "../../commons/UseCase";
 
 export default class DeleteMovie implements UseCase<string, void | null> {
   constructor(private readonly movieRepository: MovieRepository) {}

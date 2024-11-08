@@ -1,4 +1,4 @@
-import UseCase from "@/domain/core/commons/UseCase";
+import UseCase from "../../commons/UseCase";
 import Movie from "../model/Movie";
 import { MovieRepository } from "../provider/MovieRepository";
 
