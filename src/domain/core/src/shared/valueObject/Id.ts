@@ -1,17 +1,19 @@
-import { v4 as uuid, validate } from "uuid";
+import UuidAdapter from "@/infrastructure/uuid/UuidAdapter";
+import IdAdapter from "../../movie/provider/IdAdapter";
 
 export default class Id {
-  readonly value: string;
+  private static iDAdapter: IdAdapter = new UuidAdapter();
+  readonly value: string | undefined;
 
   constructor(value?: string) {
-    this.value = value ?? uuid();
+    this.value = value ?? Id.iDAdapter.generate();
 
-    if (!Id.isValido(this.value)) {
+    if (!Id.isValid(this.value!)) {
       throw new Error(`Invalid id: ${value}`);
     }
   }
 
-  static isValido(id: string): boolean {
-    return validate(id);
+  static isValid(id: string): boolean {
+    return this.iDAdapter.isValid(id);
   }
 }
