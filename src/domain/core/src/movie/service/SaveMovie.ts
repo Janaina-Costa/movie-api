@@ -1,6 +1,7 @@
 import { MovieRepository } from "../provider/MovieRepository";
 import Movie from "../model/Movie";
 import UseCase from "../../commons/UseCase";
+import MovieName from "../../shared/valueObject/MovieName";
 
 type InputMovie = {
   name: string;
@@ -29,8 +30,17 @@ export default class SaveMovie implements UseCase<InputMovie, void> {
       isFirstTimeWatching,
       quantityViews,
     } = input;
+
+    const sanitizeName = MovieName.sanitizeName(name);
+
+    const movieExists = await this.movieRepository.findByName(sanitizeName);
+
+    if (movieExists) {
+      throw new Error("Movie already exists");
+    }
+
     const movie = new Movie({
-      name,
+      name: sanitizeName,
       image,
       genre,
       linkUrl,

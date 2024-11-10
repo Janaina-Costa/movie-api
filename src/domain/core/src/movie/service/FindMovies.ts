@@ -7,6 +7,9 @@ export default class FindMovies implements UseCase<void, Movie[]> {
 
   async execute(): Promise<Movie[]> {
     const movie = await this.movieRepository.findAll();
+    if (!movie) {
+      return [];
+    }
 
     return movie;
   }

@@ -6,13 +6,9 @@ export default class MovieByIdController {
   render = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const movieExists = await CoreFaced.movie.showById(id);
+      const movie = await CoreFaced.movie.showById(id);
 
-      if (!movieExists) {
-        return res.status(400).json({ message: "Movie not found" });
-      }
-
-      res.status(200).json({ movie: movieExists });
+      res.status(200).json({ movie: movie });
     } catch (e: any) {
       return res.status(500).json({ message: e.message });
     }

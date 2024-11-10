@@ -1,4 +1,6 @@
 import CoreFaced from "@/adapters/facade";
+import { Movie } from "@/domain/core/src";
+import { MovieProps } from "@/domain/core/src/movie/model/Movie";
 import { Request, Response } from "express";
 
 export default class MovieCreateController {
@@ -16,13 +18,7 @@ export default class MovieCreateController {
         review,
         isFirstTimeWatching,
         quantityViews,
-      } = req.body;
-
-      const movieExists = await CoreFaced.movie.showByName(name);
-
-      if (movieExists) {
-        return res.status(400).json({ message: "Movie already exists" });
-      }
+      }: MovieProps = req.body;
 
       await CoreFaced.movie.save({
         name,

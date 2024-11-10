@@ -28,7 +28,7 @@ export default class MovieGenre {
   }
 
   private formateValue(value: string): string {
-    return value.toLowerCase().toLocaleUpperCase();
+    return value.toLowerCase().toLocaleUpperCase().trim();
   }
 
   get genre(): string {

@@ -20,7 +20,7 @@ export default class UserReview {
   }
 
   private formateValue(value: string): string {
-    return value.toLowerCase().toLocaleUpperCase();
+    return value.toLowerCase().toLocaleUpperCase().trim();
   }
 
   get review(): string {

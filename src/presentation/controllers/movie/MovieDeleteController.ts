@@ -7,11 +7,6 @@ export default class MovieDeleteController {
   render = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const movieExists = await CoreFaced.movie.showById(id);
-
-      if (!movieExists) {
-        return res.status(400).json({ message: "Movie not found" });
-      }
 
       await CoreFaced.movie.delete(id);
       res.status(200).json({ message: "Movie deleted successfully" });
