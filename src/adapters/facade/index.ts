@@ -1,4 +1,4 @@
-import MovieRepositorySQL from "@/infrastructure/database/MovieRepositorySQL";
+import MovieRepositorySQL from "@/infrastructure/repositories/MovieRepositorySQL";
 import MovieFacade from "./MovieFacade";
 
 export default class CoreFaced {

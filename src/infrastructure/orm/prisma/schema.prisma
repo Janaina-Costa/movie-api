@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Movie{
+model tb_movie{
   id String @id @db.UniqueIdentifier
   name String @unique @db.VarChar(120)
   image String

@@ -10,4 +10,17 @@ const settings = {
   DATABASE_URL: process.env.DATABASE_URL || "",
 };
 
+const dbConfig = {
+  server: process.env.SQL_SERVER || "localhost",
+  database: process.env.SQL_DATABASE || "",
+  user: process.env.SQL_USER || "",
+  password: process.env.SQL_PASSWORD || "",
+  options: {
+    encrypt: false,
+    enableArithAbort: true,
+    trustServerCertificate: true,
+  },
+};
+
 export const { PORT, HOST, API_URL, SECRET_kEY_JWT, DATABASE_URL } = settings;
+export default dbConfig;
