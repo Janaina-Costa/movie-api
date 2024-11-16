@@ -18,19 +18,6 @@ const connectDB = async () => {
   if (connect) {
     console.log("🚀 Database connected");
   }
-  const result = await connect
-    .request()
-    .input("id", "c33ba13f-51cd-4ec2-95ae-2b014d78e764")
-    .input("name", "Jana Costa")
-    .input("image", "lalal.png")
-    .input("genre", "Comedia")
-    .input("linkUrl", "https://www.youtube.com/watch?v=1")
-    .input("watchedDate", "2021-10-10")
-    .input("userOpinion", "Muito bom, bla ba bka")
-    .input("review", "Bom")
-    .input("isFirstTimeWatching", true)
-    .input("quantityViews", 1)
-    .query(query.create);
 };
 
 connectDB();
