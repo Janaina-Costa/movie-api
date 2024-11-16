@@ -4,7 +4,7 @@ const query = {
 
   findAll: "SELECT * FROM tb_movie;",
 
-  findOne: `SELECT * FROM tb_movie WHERE name LIKE '%@name%';`,
+  findOne: "SELECT * FROM tb_movie WHERE name LIKE '%' + @name + '%';",
 
   findById: "SELECT * FROM tb_movie WHERE id = @id;",
 
@@ -13,7 +13,9 @@ const query = {
           WHERE id = @id;
           `,
 
-  delete: `DELETE tb_movie WHERE id=@id `,
+  delete: `DELETE tb_movie WHERE id=@id;`,
+
+  count: `SELECT COUNT(*) FROM tb_movie;`,
 };
 
 export default query;
