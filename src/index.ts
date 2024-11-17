@@ -2,8 +2,7 @@ import express from "express";
 import cors from "cors";
 import router from "./presentation/routes";
 import { HOST, PORT } from "./settings";
-import { connectDataBase } from "./infrastructure/database/sqlServer/dbsql";
-import query from "./infrastructure/database/sqlServer/queryDb";
+import connectDataBase from "./infrastructure/database/sqlServer/dbSql";
 
 const app = express();
 

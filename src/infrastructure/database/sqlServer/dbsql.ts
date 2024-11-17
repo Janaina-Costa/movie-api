@@ -1,7 +1,7 @@
 import dbConfig from "@/settings";
 import sql from "mssql";
 
-export const connectDataBase = async () => {
+const connectDataBase = async () => {
   try {
     const pool = await sql.connect(dbConfig);
     return pool;
@@ -10,3 +10,5 @@ export const connectDataBase = async () => {
     throw new Error(`Error connecting to the database ${error}`);
   }
 };
+
+export default connectDataBase;
