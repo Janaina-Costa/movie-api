@@ -3,9 +3,10 @@ import query from "../database/sqlServer/queryDb";
 import connectDataBase from "../database/sqlServer/dbSql";
 import { MovieProps } from "@/domain/core/src/movie/model/Movie";
 import { MovieDTO } from "@/adapters/DTO/MovieDTO";
+import MovieWatchedDatesRepository from "./MovieWatchedDatesRepository";
 
 export default class MovieRepositorySQL implements MovieRepository {
-  async findMyId(id: string): Promise<Movie | null> {
+  async findById(id: string): Promise<Movie | null> {
     const pool = await connectDataBase();
     const result = await pool.request().input("id", id).query(query.findById);
 
@@ -40,7 +41,7 @@ export default class MovieRepositorySQL implements MovieRepository {
   async update(id: string, movie: Movie): Promise<void | null> {
     const pool = await connectDataBase();
 
-    const movieExists = await this.findMyId(id);
+    const movieExists = await this.findById(id);
     const dateIsAlreadyAdded = movieExists?.watchedDates.find(
       (date) => date.value === movie.watchedDate.value,
     );
@@ -64,6 +65,7 @@ export default class MovieRepositorySQL implements MovieRepository {
       request.input(key, value);
     }
     await request.query(query.update);
+
     for (const date of movie.watchedDates) {
       if (dateIsAlreadyAdded) {
         return;
@@ -116,14 +118,8 @@ export default class MovieRepositorySQL implements MovieRepository {
 
     await request.query(query.create);
 
-    for (const date of movie.watchedDates) {
-      await pool
-        .request()
-        .input("watchedId", movie.id.value)
-        .input("movieId", movieDB.id!)
-        .input("watchedDates", date.value)
-        .query(query.insertMovieWatchedDates);
-    }
+    const saveMovieWatchedDates = new MovieWatchedDatesRepository();
+    saveMovieWatchedDates.save(movie);
   }
 
   private async moviesMap(result: any): Promise<Map<string, MovieProps>> {
@@ -145,20 +141,11 @@ export default class MovieRepositorySQL implements MovieRepository {
         updated_at: record.updated_at,
       });
 
-      const watchedDates = await this.findAllMovieWatchedDates(record.id);
+      const movieWatchedDate = new MovieWatchedDatesRepository();
+      const watchedDate = await movieWatchedDate.findById(record.id);
 
-      moviesMap.get(record.id)!.watchedDates = watchedDates;
+      moviesMap.get(record.id)!.watchedDates = watchedDate;
     }
     return moviesMap;
-  }
-
-  private async findAllMovieWatchedDates(movieId: string): Promise<any> {
-    const pool = await connectDataBase();
-    const watchedDatesResult = await pool
-      .request()
-      .input("movieId", movieId)
-      .query(query.findAllWatchedDates);
-
-    return watchedDatesResult.recordset.map((wd) => wd.watchedDates);
   }
 }

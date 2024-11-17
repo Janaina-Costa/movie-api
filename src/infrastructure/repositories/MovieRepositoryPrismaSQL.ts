@@ -32,7 +32,7 @@ export default class MovieRepositoryPrismaSQL implements MovieRepository {
     return movies.map((movie: MovieProps) => new Movie({ ...movie }));
   }
 
-  async findMyId(id: string): Promise<Movie | null> {
+  async findById(id: string): Promise<Movie | null> {
     const movie = await this.prisma.movie.findUnique({ where: { id } });
     return movie ? new Movie({ ...movie }) : null;
   }
@@ -68,7 +68,7 @@ export default class MovieRepositoryPrismaSQL implements MovieRepository {
   }
 
   async delete(id: string): Promise<void | null> {
-    const movie = await this.findMyId(id);
+    const movie = await this.findById(id);
     if (!movie) {
       return null;
     }

@@ -8,7 +8,7 @@ export default class FindMovieById implements UseCase<string, Movie | null> {
 
   async execute(id: string): Promise<Movie | null> {
     if (!Id.isValid(id)) return null;
-    const movie = await this.movieRepository.findMyId(id);
+    const movie = await this.movieRepository.findById(id);
 
     if (!movie) {
       throw new Error("Movie not found");
