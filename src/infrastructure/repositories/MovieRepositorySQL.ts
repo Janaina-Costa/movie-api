@@ -25,8 +25,9 @@ export default class MovieRepositorySQL implements MovieRepository {
       : [];
   }
 
-  async update(id: string, movie: Movie): Promise<Movie | null> {
+  async update(id: string, movie: Movie): Promise<void | null> {
     const pool = await connectDataBase();
+
     const movieDB: MovieDTO = {
       id: id,
       name: movie.name.value,
@@ -38,16 +39,14 @@ export default class MovieRepositorySQL implements MovieRepository {
       review: movie.review.review,
       isFirstTimeWatching: movie.isFirstTimeWatching,
       quantityViews: movie.quantityViews.value,
+      updated_at: movie.updated_at,
     };
 
     const request = pool.request();
     for (const [key, value] of Object.entries(movieDB)) {
       request.input(key, value);
     }
-
-    const result = await request.query(query.update);
-
-    return result.rowsAffected[0] > 0 ? new Movie({ ...movie.props }) : null;
+    await request.query(query.update);
   }
 
   async delete(id: string): Promise<void | null> {
@@ -67,6 +66,7 @@ export default class MovieRepositorySQL implements MovieRepository {
       review: movie.review.review,
       isFirstTimeWatching: movie.isFirstTimeWatching,
       quantityViews: movie.quantityViews.value,
+      created_at: movie.createdAt,
     };
     const pool = await connectDataBase();
     const request = pool.request();

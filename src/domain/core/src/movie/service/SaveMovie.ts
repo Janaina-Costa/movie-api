@@ -13,6 +13,7 @@ type InputMovie = {
   review: string;
   isFirstTimeWatching: boolean;
   quantityViews: number;
+  created_at?: Date;
 };
 
 export default class SaveMovie implements UseCase<InputMovie, void> {
@@ -29,6 +30,7 @@ export default class SaveMovie implements UseCase<InputMovie, void> {
       review,
       isFirstTimeWatching,
       quantityViews,
+      created_at,
     } = input;
 
     const sanitizeName = MovieName.sanitizeName(name);
@@ -49,6 +51,7 @@ export default class SaveMovie implements UseCase<InputMovie, void> {
       review,
       isFirstTimeWatching,
       quantityViews,
+      created_at,
     });
     return this.movieRepository.save(movie);
   }

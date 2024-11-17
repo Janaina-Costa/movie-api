@@ -25,7 +25,7 @@ export default class MovieUpdateController {
         return res.status(400).json({ message: "Movie not found" });
       }
 
-      const movie = await CoreFaced.movie.update(id, {
+      await CoreFaced.movie.update(id, {
         name,
         image,
         genre,
@@ -37,7 +37,7 @@ export default class MovieUpdateController {
         quantityViews,
       });
 
-      return res.status(200).json({ movie, message: "Movie updated" });
+      return res.status(200).json({ message: "Movie updated" });
     } catch (e: any) {
       res.status(500).json({ message: e.message });
     }

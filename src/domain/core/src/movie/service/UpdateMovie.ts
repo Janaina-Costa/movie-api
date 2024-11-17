@@ -13,6 +13,7 @@ type InputMovie = {
   review: string;
   isFirstTimeWatching: boolean;
   quantityViews: number;
+  updated_at?: Date;
 };
 
 export default class UpdateMovie implements UseCase<InputMovie, Movie> {
@@ -30,6 +31,7 @@ export default class UpdateMovie implements UseCase<InputMovie, Movie> {
       review,
       isFirstTimeWatching,
       quantityViews,
+      updated_at,
     } = input;
     const movie = new Movie({
       name,
@@ -41,6 +43,7 @@ export default class UpdateMovie implements UseCase<InputMovie, Movie> {
       review,
       isFirstTimeWatching,
       quantityViews,
+      updated_at,
     });
     const movieU = await this.movieRepository.update(id, movie);
     return movieU ? movieU : movie;

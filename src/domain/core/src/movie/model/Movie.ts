@@ -19,6 +19,8 @@ export interface MovieProps extends EntityProps {
   review?: string;
   isFirstTimeWatching?: boolean;
   quantityViews?: number;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 export default class Movie extends Entity<Movie, MovieProps> {
@@ -31,6 +33,8 @@ export default class Movie extends Entity<Movie, MovieProps> {
   readonly review: UserReview;
   readonly isFirstTimeWatching: boolean;
   readonly quantityViews: Quantity;
+  readonly createdAt?: Date;
+  readonly updated_at?: Date;
 
   constructor(props: MovieProps) {
     super(props);
@@ -43,5 +47,7 @@ export default class Movie extends Entity<Movie, MovieProps> {
     this.watchedDate = DateVO.parse(props.watchedDate!);
     this.isFirstTimeWatching = props.isFirstTimeWatching! ?? true;
     this.quantityViews = new Quantity(props.quantityViews!) ?? 0;
+    this.createdAt = props.created_at ?? new Date();
+    this.updated_at = props.updated_at ?? new Date();
   }
 }
