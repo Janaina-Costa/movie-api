@@ -9,6 +9,7 @@ type InputMovie = {
   genre: string;
   linkUrl: string;
   watchedDate: string;
+  watchedDates: string[];
   userOpinion: string;
   review: string;
   isFirstTimeWatching: boolean;
@@ -27,6 +28,7 @@ export default class UpdateMovie implements UseCase<InputMovie, Movie> {
       genre,
       linkUrl,
       watchedDate,
+      watchedDates,
       userOpinion,
       review,
       isFirstTimeWatching,
@@ -39,6 +41,7 @@ export default class UpdateMovie implements UseCase<InputMovie, Movie> {
       genre,
       linkUrl,
       watchedDate,
+      watchedDates,
       userOpinion,
       review,
       isFirstTimeWatching,

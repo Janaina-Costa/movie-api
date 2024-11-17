@@ -15,6 +15,7 @@ export interface MovieProps extends EntityProps {
   genre?: string;
   linkUrl?: string;
   watchedDate?: string;
+  watchedDates?: string[];
   userOpinion?: string;
   review?: string;
   isFirstTimeWatching?: boolean;
@@ -29,6 +30,7 @@ export default class Movie extends Entity<Movie, MovieProps> {
   readonly genre: MovieGenre;
   readonly linkUrl: Url;
   readonly watchedDate: DateVO;
+  readonly watchedDates: DateVO[];
   readonly userOpinion: UserOpinion;
   readonly review: UserReview;
   readonly isFirstTimeWatching: boolean;
@@ -45,6 +47,12 @@ export default class Movie extends Entity<Movie, MovieProps> {
     this.userOpinion = new SimpleText(props.userOpinion!);
     this.review = new UserReview(props.review!);
     this.watchedDate = DateVO.parse(props.watchedDate!);
+    this.watchedDates = props.watchedDates
+      ? props.watchedDates!.map((date) => DateVO.parse(date))
+      : [];
+    if (props.watchedDate) {
+      this.watchedDates.push(DateVO.parse(props.watchedDate)); // Adiciona watchedDate a watchedDates
+    }
     this.isFirstTimeWatching = props.isFirstTimeWatching! ?? true;
     this.quantityViews = new Quantity(props.quantityViews!) ?? 0;
     this.createdAt = props.created_at ?? new Date();
