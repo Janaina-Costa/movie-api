@@ -1,8 +1,13 @@
 const query = {
   create: `INSERT INTO tb_movie (id, name, image, genre, linkUrl, watchedDate, userOpinion, review, isFirstTimeWatching, quantityViews, created_at)
-     VALUES (@id, @name, @image, @genre, @linkUrl, @watchedDate, @userOpinion, @review, @isFirstTimeWatching, @quantityViews, @created_at);`,
+            VALUES (@id, @name, @image, @genre, @linkUrl, @watchedDate, @userOpinion, @review, @isFirstTimeWatching, @quantityViews, @created_at);`,
 
-  findAll: "SELECT * FROM tb_movie;",
+  insertMovieWatchedDates: `INSERT INTO tb_MovieWatchDates (watchedId, movieId, watchedDates)
+                        VALUES(@watchedId, @movieId, @watchedDates);`,
+
+  findAll: `SELECT * FROM tb_movie;`,
+
+  findByIdWatchedDates: `SELECT * FROM tb_MovieWatchDates WHERE movieId = @movieId ORDER BY watchedDates ASC;`,
 
   findOne: "SELECT * FROM tb_movie WHERE name LIKE '%' + @name + '%';",
 
