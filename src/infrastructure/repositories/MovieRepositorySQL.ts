@@ -4,6 +4,7 @@ import connectDataBase from "../database/sqlServer/dbSql";
 import { MovieProps } from "@/domain/core/src/movie/model/Movie";
 import { MovieDTO } from "@/adapters/DTO/MovieDTO";
 import MovieWatchedDatesRepository from "./MovieWatchedDatesRepository";
+import { DB_SQL } from "../database/sqlServer";
 
 export default class MovieRepositorySQL implements MovieRepository {
   private movieWatchedDatesRepository: MovieWatchedDatesRepository;
@@ -89,20 +90,21 @@ export default class MovieRepositorySQL implements MovieRepository {
 
   async delete(id: string): Promise<void | null> {
     const pool = await connectDataBase();
-    await pool.request().input("id", id).query(query.delete);
+    const transaction = new DB_SQL.Transaction(pool);
+
+    await transaction.begin();
+
+    let request = new DB_SQL.Request(transaction);
+    await request.input("movieId", id).query(query.deleteWatchedDates);
+
+    request = new DB_SQL.Request(transaction);
+    await request.input("id", id).query(query.deleteMovie);
+
+    await transaction.commit();
   }
 
   async save(movie: Movie): Promise<void> {
     const pool = await connectDataBase();
-
-    // if (
-    //   movie.watchedDate &&
-    //   !movie.watchedDates.some((date) =>
-    //     date.value.includes(movie.watchedDate.value),
-    //   )
-    // ) {
-    //   movie.watchedDates.push(movie.watchedDate);
-    // }
 
     const movieDB: MovieDTO = {
       id: movie.id.value,
