@@ -2,6 +2,8 @@ import { MovieRepository } from "../provider/MovieRepository";
 import Movie from "../model/Movie";
 import UseCase from "../../commons/UseCase";
 import MovieName from "../../shared/valueObject/MovieName";
+import Quantity from "../../shared/valueObject/Quantity";
+import { log } from "console";
 
 type InputMovie = {
   name: string;
@@ -39,10 +41,23 @@ export default class SaveMovie implements UseCase<InputMovie, void> {
 
     const movieExists = await this.movieRepository.findByName(sanitizeName);
 
+    // let lengthQ
+
+    // if(watchedDates){
+    //   lengthQ = watchedDates.length;
+    // }else{
+    //   console.log('aqui ');
+
+    //   lengthQ = 0;
+    // }
+
+    // const quantity = new Quantity(quantityViews,lengthQ, isFirstTimeWatching);
+
+    // console.log('quantity', quantity.value);
+
     if (movieExists) {
       throw new Error("Movie already exists");
     }
-
     const movie = new Movie({
       name: sanitizeName,
       image,
@@ -56,6 +71,7 @@ export default class SaveMovie implements UseCase<InputMovie, void> {
       quantityViews,
       created_at,
     });
-    return this.movieRepository.save(movie);
+
+    await this.movieRepository.save(movie);
   }
 }

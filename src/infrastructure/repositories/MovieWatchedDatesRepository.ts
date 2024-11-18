@@ -1,19 +1,19 @@
+import { MovieProps } from "@/domain/core/src/movie/model/Movie";
 import connectDataBase from "../database/sqlServer/dbSql";
 import query from "../database/sqlServer/queryDb";
 
 export default class MovieWatchedDatesRepository
   implements MovieWatchedDatesRepository
 {
-  async save(movie: any): Promise<void> {
+  async save(movie: MovieProps): Promise<void> {
     const pool = await connectDataBase();
-    for (const date of movie.watchedDates) {
-      await pool
-        .request()
-        .input("watchedId", movie.id.value)
-        .input("movieId", movie.id!)
-        .input("watchedDates", date.value)
-        .query(query.insertMovieWatchedDates);
-    }
+
+    await pool
+      .request()
+      .input("watchedId", movie.id)
+      .input("movieId", movie.id)
+      .input("watchedDates", movie.watchedDate)
+      .query(query.insertMovieWatchedDates);
   }
 
   async findById(movieId: string): Promise<string[] | []> {
@@ -24,5 +24,15 @@ export default class MovieWatchedDatesRepository
       .query(query.findByIdWatchedDates);
 
     return watchedDatesResult.recordset.map((wd) => wd.watchedDates);
+  }
+
+  async countMovieWatchedDates(movieId: string): Promise<number> {
+    const pool = await connectDataBase();
+    const result = await pool
+      .request()
+      .input("movieId", movieId)
+      .query(query.countWatchedDates);
+
+    return result.recordset[0][""];
   }
 }

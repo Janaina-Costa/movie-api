@@ -1,6 +1,8 @@
 import { MovieRepository } from "../provider/MovieRepository";
 import Movie from "../model/Movie";
 import UseCase from "../../commons/UseCase";
+import DateVO from "../../shared/valueObject/DateVO";
+import Quantity from "../../shared/valueObject/Quantity";
 
 type InputMovie = {
   id: string;
@@ -35,6 +37,7 @@ export default class UpdateMovie implements UseCase<InputMovie, Movie> {
       quantityViews,
       updated_at,
     } = input;
+
     const movie = new Movie({
       name,
       image,
@@ -48,6 +51,7 @@ export default class UpdateMovie implements UseCase<InputMovie, Movie> {
       quantityViews,
       updated_at,
     });
+
     const movieU = await this.movieRepository.update(id, movie);
     return movieU ? movieU : movie;
   }

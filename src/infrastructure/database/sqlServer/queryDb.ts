@@ -9,6 +9,8 @@ const query = {
 
   findByIdWatchedDates: `SELECT * FROM tb_MovieWatchDates WHERE movieId = @movieId ORDER BY watchedDates ASC;`,
 
+  countWatchedDates: `SELECT COUNT(*) FROM tb_MovieWatchDates WHERE movieId = @movieId;`,
+
   findOne: "SELECT * FROM tb_movie WHERE name LIKE '%' + @name + '%';",
 
   findById: "SELECT * FROM tb_movie WHERE id = @id;",

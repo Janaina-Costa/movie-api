@@ -6,6 +6,12 @@ import { MovieDTO } from "@/adapters/DTO/MovieDTO";
 import MovieWatchedDatesRepository from "./MovieWatchedDatesRepository";
 
 export default class MovieRepositorySQL implements MovieRepository {
+  private movieWatchedDatesRepository: MovieWatchedDatesRepository;
+
+  constructor(movieWatchedDatesRepository: MovieWatchedDatesRepository) {
+    this.movieWatchedDatesRepository = movieWatchedDatesRepository;
+  }
+
   async findById(id: string): Promise<Movie | null> {
     const pool = await connectDataBase();
     const result = await pool.request().input("id", id).query(query.findById);
@@ -56,7 +62,7 @@ export default class MovieRepositorySQL implements MovieRepository {
       userOpinion: movie.userOpinion.value,
       review: movie.review.review,
       isFirstTimeWatching: movie.isFirstTimeWatching,
-      quantityViews: movie.quantityViews.value,
+      quantityViews: movie.quantityViews,
       updated_at: movie.updated_at,
     };
 
@@ -64,6 +70,7 @@ export default class MovieRepositorySQL implements MovieRepository {
     for (const [key, value] of Object.entries(movieDB)) {
       request.input(key, value);
     }
+
     await request.query(query.update);
 
     for (const date of movie.watchedDates) {
@@ -88,14 +95,14 @@ export default class MovieRepositorySQL implements MovieRepository {
   async save(movie: Movie): Promise<void> {
     const pool = await connectDataBase();
 
-    if (
-      movie.watchedDate &&
-      !movie.watchedDates.some((date) =>
-        date.value.includes(movie.watchedDate.value),
-      )
-    ) {
-      movie.watchedDates.push(movie.watchedDate);
-    }
+    // if (
+    //   movie.watchedDate &&
+    //   !movie.watchedDates.some((date) =>
+    //     date.value.includes(movie.watchedDate.value),
+    //   )
+    // ) {
+    //   movie.watchedDates.push(movie.watchedDate);
+    // }
 
     const movieDB: MovieDTO = {
       id: movie.id.value,
@@ -107,7 +114,7 @@ export default class MovieRepositorySQL implements MovieRepository {
       userOpinion: movie.userOpinion.value,
       review: movie.review.review,
       isFirstTimeWatching: movie.isFirstTimeWatching,
-      quantityViews: movie.quantityViews.value,
+      quantityViews: movie.quantityViews,
       created_at: movie.createdAt,
     };
 
@@ -118,8 +125,7 @@ export default class MovieRepositorySQL implements MovieRepository {
 
     await request.query(query.create);
 
-    const saveMovieWatchedDates = new MovieWatchedDatesRepository();
-    saveMovieWatchedDates.save(movie);
+    await this.movieWatchedDatesRepository.save(movie.props);
   }
 
   private async moviesMap(result: any): Promise<Map<string, MovieProps>> {
