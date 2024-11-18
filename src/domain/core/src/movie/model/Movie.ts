@@ -54,7 +54,7 @@ export default class Movie extends Entity<Movie, MovieProps> {
       this.watchedDates.push(DateVO.parse(props.watchedDate)); // Adiciona watchedDate a watchedDates
     }
     this.isFirstTimeWatching = props.isFirstTimeWatching! ?? true;
-    this.quantityViews = props.quantityViews ?? 0;
+    this.quantityViews = this.isFirstTimeWatching ? 1 : props.quantityViews!;
     this.createdAt = props.created_at ?? new Date();
     this.updated_at = props.updated_at ?? new Date();
   }
