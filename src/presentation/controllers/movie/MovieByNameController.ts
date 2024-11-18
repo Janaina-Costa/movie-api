@@ -8,7 +8,7 @@ export default class MovieByNameController {
     try {
       const { name } = req.body;
 
-      const movieExists = await CoreFaced.movie.showByName(name);
+      await CoreFaced.movie.showByName(name);
     } catch (e: any) {
       return res.status(500).json({ message: e.message });
     }

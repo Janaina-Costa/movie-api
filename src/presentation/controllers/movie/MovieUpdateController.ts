@@ -21,10 +21,19 @@ export default class MovieUpdateController {
 
       const movieExists = await CoreFaced.movie.showById(id);
 
-      const quantity = movieExists?.watchedDates?.length;
-
       if (!movieExists) {
         return res.status(400).json({ message: "Movie not found" });
+      }
+
+      let quantityWatched = movieExists?.watchedDates?.length;
+
+      if (
+        quantityWatched &&
+        quantityViews > 0 &&
+        quantityWatched > 0 &&
+        !isFirstTimeWatching
+      ) {
+        quantityWatched = quantityWatched + quantityViews;
       }
 
       await CoreFaced.movie.update(id, {
@@ -35,8 +44,9 @@ export default class MovieUpdateController {
         watchedDate,
         userOpinion,
         review,
-        isFirstTimeWatching,
-        quantityViews: quantity,
+        isFirstTimeWatching:
+          quantityViews && quantityViews > 0 ? false : isFirstTimeWatching,
+        quantityViews: quantityWatched,
       });
 
       return res.status(200).json({ message: "Movie updated" });
