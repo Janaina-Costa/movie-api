@@ -37,29 +37,8 @@ export default class SaveMovie implements UseCase<InputMovie, void> {
       created_at,
     } = input;
 
-    const sanitizeName = MovieName.sanitizeName(name);
-
-    const movieExists = await this.movieRepository.findByName(sanitizeName);
-
-    // let lengthQ
-
-    // if(watchedDates){
-    //   lengthQ = watchedDates.length;
-    // }else{
-    //   console.log('aqui ');
-
-    //   lengthQ = 0;
-    // }
-
-    // const quantity = new Quantity(quantityViews,lengthQ, isFirstTimeWatching);
-
-    // console.log('quantity', quantity.value);
-
-    if (movieExists) {
-      throw new Error("Movie already exists");
-    }
     const movie = new Movie({
-      name: sanitizeName,
+      name,
       image,
       genre,
       linkUrl,

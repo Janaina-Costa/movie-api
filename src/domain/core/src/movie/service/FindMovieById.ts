@@ -10,10 +10,6 @@ export default class FindMovieById implements UseCase<string, Movie | null> {
     if (!Id.isValid(id)) return null;
     const movie = await this.movieRepository.findById(id);
 
-    if (!movie) {
-      throw new Error("Movie not found");
-    }
-
     return movie;
   }
 }

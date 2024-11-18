@@ -7,11 +7,7 @@ export default class DeleteMovie implements UseCase<string, void | null> {
 
   async execute(id: string): Promise<void | null> {
     if (!Id.isValid(id)) return null;
-    const movieExists = await this.movieRepository.findById(id);
-
-    if (!movieExists) {
-      throw new Error("Movie not found");
-    }
+    await this.movieRepository.findById(id);
 
     return this.movieRepository.delete(id);
   }
